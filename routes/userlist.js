@@ -12,8 +12,7 @@ exports.list =  function(req, res) {
 	    console.log("Connected to MongoDB");
 	    console.log("0");
 	  }
-	
-	
+	  
 	  async.series([
 	                
 	                function(callback)
@@ -27,6 +26,7 @@ exports.list =  function(req, res) {
 	              	       else {
 	              	          console.log("Connected to phonebook");
 	              	          console.log("3");
+	              	          
 	              	       }
 	                	});
 	                	callback(null, 'one');
@@ -34,14 +34,26 @@ exports.list =  function(req, res) {
 	                },
 	                function(callback)
 	                {
-	                	console.log("222");
-	                	collection.find().toArray(function(err, items) {
+	                   	console.log("222");
+	                	
+	                	var randnum = Math.floor((Math.random() * 10) + 1);
+	                	var alpha = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','X','Y','Z'];
+	                	var randletter = alpha[Math.floor(Math.random() * alpha.length)];
+                        console.log(randletter);
+                        var val =  randletter + ".*" + randnum + ".*";	
+                        console.log(val);
+                        //var val = "T.*";
+                       
+                	   
+                        
+                  	
+                        var results = collection.find({"FirstName": new RegExp(val)}).limit(randnum).toArray(function(err, items){
 	         	           if(err) {
 	         			       console.log(err + " Error getting items for display");
 	         			      
 	         	           }
 	         	           else {
-	         			      console.log(items);
+	         			      //console.log(items);
 	         			      res.render('userlist', 
 	         					   { "userlist" : items
 	         			        
@@ -54,7 +66,7 @@ exports.list =  function(req, res) {
 	                }
 	               
 	             ]);
-	  
+	         			  
+	             
 	}); // end MongoClient.connect
 }
-

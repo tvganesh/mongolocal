@@ -1,4 +1,5 @@
 
+
 /**
  * Module dependencies.
  */
@@ -27,14 +28,12 @@ var express = require('express')
 var mongodb = require('mongodb');
 
 /*var MongoClient = mongodb.MongoClient;
-
 var db= MongoClient.connect("mongodb://localhost:27017/test", function(err, db) {
   if(err) {
     console.log("failed to connect to the database");
   } else {
     console.log("connected to database");
   }
-
 }); */
 
 var app = express();
@@ -72,5 +71,31 @@ app.post('/deleteuser',deleteuser.list);
 
 // Create Web server and listen on port 3000
 http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
-});
+	var MongoClient = mongodb.MongoClient;
+	var db= MongoClient.connect("mongodb://localhost:27017/test", function(err, db) {
+	  if(err) {
+	    console.log("failed to connect to the database");
+	  } else {
+	    console.log("connected to database");
+	  }
+	  
+		  var collection = db.collection('phonebook');
+		  
+		  //Clear DB and insert 3 records
+		  //collection.remove(mycallback);
+		  var user1 = { "FirstName" : "Tinniam", "LastName" : "Ganesh","Mobile": "916732177728" };
+		  var user2 = { "FirstName" : "Darth", "LastName" : "Vader","Mobile": "6666699999" };
+		  var user3 = { "FirstName" : "Bill", "LastName" : "Shakespeare","Mobile": "8342189991" };
+		  collection.insert(user1,function(err,result){});
+		  collection.insert(user2,function(err,result){});
+		  collection.insert(user3,function(err,result){});
+		  collection.find().toArray(function(err, items) {
+			  //console.log(items);
+		  	
+		  }); 
+		 }); 
+	console.log("Express server listening on port " + app.get('port'));
+
+	  
+	}); 
+  

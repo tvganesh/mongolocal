@@ -22,6 +22,7 @@ exports.list = function(req, res) {
     var FirstName = req.body.firstname;
     var LastName = req.body.lastname;
     var Mobile = req.body.mobile;
+    console.log("Mobile=" + Mobile);
 
     async.series([
 	                
@@ -56,13 +57,19 @@ exports.list = function(req, res) {
 	                            res.send("There was a problem adding the information to the database.");
 	                        }
 	                        else {
+	                        	
+	     	            	   
 	                            // If it worked, redirect to userlist - Display users
 	                            res.location("userlist");
 	                            // And forward to success page
 	                            res.redirect("userlist");
 	                        }
 	                    });	                	
-	                	
+	                    
+                        collection.find().toArray(function(err, items) {
+	    	            console.log("Length =" + items.length);
+	    	            db.close();
+                        });
 	                	
 	                	callback(null, 'two');
 	                }
